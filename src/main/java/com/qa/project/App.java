@@ -3,12 +3,14 @@ package com.qa.project;
 import javax.activation.URLDataSource;
 
 import java.net.*;
+import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.InteractsWithApps;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -29,14 +31,18 @@ public class App
         caps.setCapability(MobileCapabilityType.UDID, "18157abf");
         caps.setCapability("appPackage","io.appium.android.apis");
         caps.setCapability("appActivity", "io.appium.android.apis.ApiDemos");
-        //String path = System.getProperty("user.dir") + "\\src\\main\\java\\com\\qa\\project\\Resources\\ApiDemos-debug.apk";
+        String path = System.getProperty("user.dir") + "\\src\\main\\java\\com\\qa\\project\\Resources\\ApiDemos-debug.apk";
         //String path="test";
-       // caps.setCapability(MobileCapabilityType.APP, path);
+        caps.setCapability(MobileCapabilityType.APP, path);
 
         URL url = new URL("http://127.0.0.1:4723");
 
         AppiumDriver driver = new AndroidDriver(url, caps);
 
-        
+        ((AndroidDriver) driver).runAppInBackground(Duration.ofMillis(6000));
+
+        boolean k = ((AndroidDriver) driver).isAppInstalled("io.appium.android.apis");
+
+        System.out.println(k);
     }
 }
